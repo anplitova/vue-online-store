@@ -1,4 +1,17 @@
-@import "normalize";
-@import "fonts";
-@import "_variables";
-@import "_mixins";
+@import "./global/normalize";
+@import "./global/fonts";
+@import "./global/_variables";
+@import "./global/_mixins";
+@import "./global/_utils";
+
+body {
+  font-family: $main-font;
+  font-weight: 400;
+  font-size: 14px;
+  background-color: $main-bg;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}

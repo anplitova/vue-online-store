@@ -4,7 +4,7 @@ module.exports = {
   devServer: {
     proxy: {
       '/api': {
-        target: 'https://fakestoreapi.com/',
+        target: 'https://fakestoreapi.com',
         changeOrigin: true
       }
     }
