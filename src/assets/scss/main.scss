@@ -3,11 +3,14 @@
 @import "./global/_variables";
 @import "./global/_mixins";
 @import "./global/_utils";
+@import "./button";
+
 
 body {
   font-family: $main-font;
   font-weight: 400;
   font-size: 14px;
+  line-height: 1.2;
   background-color: $main-bg;
 }
 

@@ -1,6 +1,6 @@
 <template>
   <div class="filter">
-    <h2 class="title filter__title">Фильтр</h2>
+    <h2 class="title filter__title">Filters</h2>
     <slot name="filter"></slot>
   </div>
 </template>
@@ -11,4 +11,10 @@ export default {
 }
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+.filter {
+  flex-shrink: 0;
+  width: 260px;
+  margin-right: 30px;
+}
+</style>

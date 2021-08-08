@@ -1,35 +1,40 @@
 <template>
   <article class="product">
-    <button :class="['product__favourite', {'product__favourite--active': item.favourite}]" type="button" @click="handleClickFavouriteButton">
-      <HeartIcon/>
-    </button>
     <div class="product__image">
-      <img :src="item.image" :alt="item.title">
+      <img :src="product.image" :alt="product.title">
     </div>
     <div class="product__content">
-      <h2 class="product__title">{{ item.title }}</h2>
-      <div class="product__category">{{ item.category }}</div>
-      <div class="product__price">{{ item.price }}</div>
+      <h3 class="product__title">{{ product.title }}</h3>
+      <p class="product__category">{{ product.category }}</p>
+      <p class="product__description">{{ product.description }}</p>
+    </div>
+    <div class="product__options">
+      <p class="product__price">{{ product.price }}</p>
+      <button class="button button--primary product__button" type="button" @click="onEditProduct()">Edit</button>
+      <button class="button button--danger product__button" type="button" @click="onRemoveProduct()">Remove</button>
     </div>
   </article>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, PropType } from 'vue'
 import ProductModel from '@models/ProductModel'
-import HeartIcon from '@icons/HeartIcon.vue'
 
 export default defineComponent({
   name: 'Product',
-  components: {
-    HeartIcon
-  },
+  components: {},
   props: {
-    item: {} as any
+    product: {
+      type: Object as PropType<ProductModel>
+    }
   },
   methods: {
-    handleClickFavouriteButton () {
-      this.$emit('click-favourite-button', this.item.id)
+    onEditProduct () {
+      console.log('edit', this.product)
+    },
+
+    onRemoveProduct () {
+      console.log('remove', this.product)
     }
   }
 })
@@ -39,48 +44,89 @@ export default defineComponent({
 .product {
   position: relative;
   display: flex;
-  border-radius: 4px;
+  border-radius: 6px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   background-color: $white;
+  box-shadow: 0 4px 24px 0 rgba(34, 41, 47, 0.1);
+  transition:
+    box-shadow 0.3s ease,
+    transform 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 4px 25px 0 rgb(34, 41, 47, 0.25);
+    transform: translateY(-5px);
+  }
+
+  &:not(:last-child) {
+    margin-bottom: 30px;
+  }
 
   &__image {
-    padding: 20px;
+    padding: 20px 0 20px 15px;
     flex-shrink: 0;
 
     img {
       width: 180px;
-      height: 100%;
-      object-fit: cover;
+      height: 180px;
+      object-fit: contain;
     }
   }
 
   &__content {
     width: 100%;
-    padding: 20px;
+    padding: 20px 15px;
+    border-right: 1px solid #cdcdcd;
   }
 
   &__title {
     margin-top: 0;
-    margin-bottom: 10px;
-    font-size: 20px;
-    line-height: 32px;
-    color: $main-blue;
+    margin-bottom: 4px;
+    font-weight: 600;
+    font-size: 14px;
+    color: $dark-text;
     transition: color 0.3s ease;
 
     &:hover {
-      color: $light-blue;
+      color: $primary-text;
       cursor: pointer;
     }
   }
 
-  &__category {}
+  &__category {
+    margin-top: 0;
+    margin-bottom: 8px;
+    font-size: 12px;
+    color: $dark-text;
+  }
+
+  &__description {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    // -webkit-box-ordinal-group: 4;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 12px;
+    color: $dark-text;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  &__options {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    padding: 15px;
+  }
 
   &__price {
-    margin-bottom: 22px;
-    font-size: 24px;
+    margin-top: 0;
+    margin-bottom: auto;
+    font-size: 18px;
     line-height: 36px;
     font-weight: 600;
-    color: #444444;
+    color: $primary-button;
 
     &:before {
       content: '$';
@@ -88,43 +134,8 @@ export default defineComponent({
     }
   }
 
-  &__favourite {
-    @include reset-button;
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    line-height: 0;
-
-    & svg {
-      & path {
-        stroke: $light-blue;
-        transition: stroke 0.3s ease;
-      }
-
-      fill: transparent;
-      transition:
-        fill 0.3s ease,
-        transform 0.3s ease;
-    }
-
-    &:hover svg {
-      transform: scale(1.1);
-    }
-
-    &:active svg {
-      fill: $dark-blue;
-      transform: scale(0.9);
-
-      & path {
-        stroke: $dark-blue;
-      }
-    }
-
-    &--active {
-      & svg {
-        fill: $light-blue;
-      }
-    }
+  &__button {
+    margin-top: 10px;
   }
 }
 </style>

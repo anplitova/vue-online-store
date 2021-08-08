@@ -2,12 +2,8 @@
   <Page>
     <template #content>
       <div class="page__wrapper">
-        <aside class="aside">
-          <Filter></Filter>
-        </aside>
-        <section class="results">
-          <Product v-for="item of products" :key="item.id" :item="item" @click-favourite-button="updateFavouriteProduct($event)"/>
-        </section>
+        <Filter/>
+        <Catalog :products="products"/>
       </div>
     </template>
   </Page>
@@ -16,8 +12,8 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import Page from '@components/page/Page.vue'
-import Filter from '@components/filter/Filter.vue'
-import Product from '@components/product/Product.vue'
+import Filter from '@/components/filter/Filter.vue'
+import Catalog from '@/components/product/Catalog.vue'
 import ProductModel from '@models/ProductModel'
 import ProductUtils from '@utils/product'
 
@@ -26,12 +22,11 @@ export default defineComponent({
   components: {
     Page,
     Filter,
-    Product
+    Catalog
   },
   data () {
     return {
       products: [] as ProductModel[],
-      favouriteProducts: [] as any,
       loading: false
     }
   },
@@ -44,16 +39,12 @@ export default defineComponent({
       fetch('https://fakestoreapi.com/products')
         .then((response: any) => response.json())
         .then((result: Array<ProductModel>) => {
-          this.products = ProductUtils.setFavouriteProducts(result, this.favouriteProducts)
+          this.products = result
         })
         .catch((error) => console.error(error))
         .finally(() => {
           this.loading = false
         })
-    },
-    updateFavouriteProduct (id: number) {
-      this.favouriteProducts = ProductUtils.updateFavouriteProducts(id, this.favouriteProducts)
-      this.products = ProductUtils.setFavouriteProducts(this.products, this.favouriteProducts)
     }
   }
 })
